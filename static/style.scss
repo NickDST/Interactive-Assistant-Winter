@@ -1,0 +1,230 @@
+$winterbar_padding : 25%;
+
+
+.winterbar {
+
+        padding: $winterbar_padding;
+}
+
+.winterbar_color{
+    border-radius: 25px;
+    height: 95vh;
+    width: 100%;
+    background-color: #313b3f;
+    position: relative;
+}
+
+.winterTodo{
+    border-radius: 25px;
+    height: 95vh;
+    width: 100%;
+    background-color: #3949ab;
+    position: relative;
+    overflow: auto;
+
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+
+    overflow: auto;
+
+    .card{
+        border-radius: 25px;
+
+        .Sidebar_innerList{
+            padding: 10px;
+            padding-bottom: 20px;
+            margin-bottom: 5px;
+            height: 2em;
+            width: 20em;
+            border-radius: 25px;
+            background-color: #6474de;
+            border: 2px;
+            border-style: solid;
+            border-color:  #3b4588;
+            text-align: left
+        }
+       
+        .card-action{
+            border-radius: 25px;
+        }
+
+
+    }
+
+
+}
+
+.winterTodo_header{
+    padding-top: 5px;
+    border-radius: 25px;
+    height: 5vh;
+    width: 100%;
+    background-color: #28347d;
+
+    span{
+        color: whitesmoke;
+        font: 30px arial, sans-serif;
+    }
+}
+
+.winterChatBox{
+    border-radius: 25px;
+    margin-right: 20px;
+    height: 92vh;
+    background-color: #3d4a4f;
+
+    .card-action{
+        border-radius: 25px;
+    }
+    
+}
+
+.winterInput{
+    border-radius: 25px;
+}
+
+.winter_messages{
+    color:#02a2ff;
+    margin:0;
+    margin: 0px;
+    font-size: large;
+    padding: 5px;
+}
+
+
+.user_messages{
+    text-align: right;
+    color: rgb(45, 205, 45);
+    margin: 0px;
+    font-size: large;
+    padding: 5px;
+    // border-radius: 25px;
+    // width: 200px;
+    // height: 40px;
+    // background-color: #0277bd;
+}
+
+.innerChat{
+    overflow: auto;
+    border-radius: 25px;
+    height: 95%;
+    width: 100%;
+    background-color: #3d3e3f;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #0277bd;
+    padding: 20px;
+
+    .nomessages{
+        color: white;
+        text-align: right;
+    }
+
+}
+
+
+.chat-container{
+
+    margin: 0px;
+    padding: px;
+}
+
+.submitWinter{
+
+    @media screen and (max-width: 768px){
+        padding-left: 50%;
+    }
+
+    padding-left: 80%;
+
+    .btn{
+        height: auto;
+        width: 200px;
+    }
+}
+
+.innerWinterModal{
+    height: 95%;
+    width: 95%;
+    background-color: #283067 ;
+    border-radius: 25px;
+}
+
+.winterModal{
+    border-radius: 25px;
+    background-color: #3949ab;
+    height: 150vh;
+    width: 150vh;
+
+
+
+    .modal-content{
+        color: white;
+        
+    
+
+
+    .verticalModalLine{
+        border-left: 6px solid grey;
+        height: 100%;
+        position: absolute;
+        left: 50%;
+        margin-left: -3px;
+        top: 0;
+
+        .innerLine{
+            padding-top: 20px;
+            padding-left: 20px;
+        }
+
+    }
+    
+    }
+}
+
+.winterLoading{
+    text-align: left;
+    color: #43b7f5 ;
+    margin: 0px;
+    font-size: 50px;
+    padding: 0px;
+
+}
+
+
+.answerbox {
+    background-color: #536dfe;
+    border-radius: 25px;
+    width: 95%;
+    margin-bottom: 20px
+
+}
+
+// // *****
+
+// .winterChat-container {
+//     margin: 0px;
+//     padding: px;
+//     overflow: auto;
+// }
+
+// .chat-message {
+//   padding: 6px;
+//   border-radius: 3px;
+//   margin-bottom: 3px;
+// }
+
+// .bot-message {
+//     background: green;
+//     color: white;
+// }
+
+// .human-message {
+//     background: dodgerblue;
+//     color: white;
+//     margin: 13px 1px;
+// }
+
+

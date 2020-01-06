@@ -1,0 +1,6 @@
+
+Here is your client ID
+xxxxx
+
+Here is your client secret
+xxxxxx

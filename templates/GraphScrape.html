@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>ScrapGrapher</title>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+  <!-- the star of the show - the Vue library! -->
+  <!-- <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+  <script src="{{ url_for('static', filename='vue.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='axios.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='plotly-latest.min.js')}}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='Graph_style.css') }}">
+
+
+  <script src="{{ url_for('static', filename='functional.js')}}"></script>
+
+
+
+
+  <!--Import Google Icon Font-->
+  <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+  <!--Import materialize.css-->
+  
+    <!-- Compiled and minified CSS -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='materialize.min.css') }}">
+    <!-- Compiled and minified JavaScript -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
+    <script src="{{ url_for('static', filename='materialize.min.js')}}"></script>
+
+  <script>
+    // when life is settled, load up the fun stuff
+    // const axios = require('axios').default;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        
+      new Vue({
+        el: '#sg1',
+        delimiters: ['[[', ']]'],
+        // define data - initial display text
+        data: {
+          m1: "Welcome to Project GraphScrape",
+          graphs_data: [],
+          link: "",
+          graphType:  "",
+          selected_data: [],
+          xData: [],
+          xCol: "",
+          yData: [],
+          yCol: "",
+          zData: [],
+          zCol: "",
+
+          graphCreated: 0,
+
+        },
+
+// 1q7xKi-iJ2oJBQuisOKKk6FB3zKAQ8UZS5E8eLV21noI
+        methods: {
+
+        async submittedQuery(){
+            vm = this;
+            var sheet_id;
+            if(vm.link.includes("spreadSheetSearch=")){
+                sheet_id = vm.link.replace("spreadSheetSearch=","");
+
+                try {
+
+                axios({
+                method: 'get',
+                url: "/readSheetPd",
+                params: {
+                    sheet_id: sheet_id,
+                    }
+                })
+                .then( (res)=> {
+                        this.graphs_data = res.data;
+                        console.log(res.data);
+                })
+                .catch( (error)=> {
+                    //eslint-disable-next-line
+                    console.log(error)
+                });
+                    
+// spreadSheetSearch=1q7xKi-iJ2oJBQuisOKKk6FB3zKAQ8UZS5E8eLV21noI
+                    
+
+                } catch(err) {
+                    alert(err); // TypeError: failed to fetch
+                }
+
+                
+
+            } else {
+                ScrapeData();
+            }
+
+        },
+
+    scrapeData() {
+        console.log("Getting the data...")
+        var vm = this;
+        const path = '/ScrapeData';
+        axios({
+                method: 'get',
+                url: path,
+                params: {
+                    submitted_link: vm.link,
+                }
+            })
+            .then( (res)=> {
+                if(res.data != "No Tables Found"){
+                    this.graphs_data = res.data;
+                } else {
+                    this.m1 = "No Tables Found";
+                }
+                
+
+            })
+            .catch( (error)=> {
+                //eslint-disable-next-line
+                console.log(error)
+            });
+    },
+    columnData(column){
+        // console.log(column);
+        vm = this;
+        var data = vm.selected_data.data;
+
+        payload = []
+        for(var i = 0; i < data.length; i++){
+            // console.log(data[i]);
+            payload.push(data[i][column]);
+        }
+        return payload;
+    },
+    createGraph(){
+        vm = this;
+        adjustValue1(vm);
+    },
+
+    clearGraph(){
+        vm = this;
+        clearData(vm);
+    },
+
+
+},
+created(){
+    // this.initiateGraph();
+    //create an empty graph first
+}
+      })
+    })
+  </script>
+</head>
+<body class="grey darken-3" style="color: aliceblue">
+  <!-- text -->
+  <div id="sg1" class = "">
+    <div class="card-panel orange lighten-1">
+        <h3 style="text-align: center; color:rgb(26, 26, 26);">[[ m1 ]]</h3>
+    </div>
+
+    <div class="inputBar">
+    <input v-model="link" placeholder="Paste a link" type="text" style="color: aliceblue">
+    <p>(spreadSheetSearch= to search drive)</p>
+    <p>Scraping... [[link]] </p>
+    <button v-on:click="submittedQuery" class= "waves-effect waves-light btn blue" style="align-content: center; margin-top: 10px"> Scrape Website Tables</button> 
+
+    </div>
+
+    <div id='myDiv' ><!-- Plotly chart will be drawn inside this DIV --></div>
+    <br>
+
+
+
+<!-- Getting the data -->
+
+<div class="select_df">
+        <div v-for="graph in graphs_data">
+            <div v-on:click="selected_data = graph" class="individual_dfs">
+                [[ graph.columns ]]
+            </div>
+        </div>
+</div>
+
+
+
+<div v-if="!(selected_data === undefined || selected_data.length == 0)">
+
+        <div class = "current_graph">
+                <h4>Current Graph</h4>
+                    <p>Graph Type: [[graphType]]</p>
+                    <p>X: [[xCol]]</p>
+                    <p>Y: [[yCol]]</p>
+                    <p>Z: [[zCol]]</p>
+        </div>
+
+            <div class="divider"></div>
+
+
+
+
+<hr>
+<div class = "container">
+
+<div class = "row">
+    <div class = "col s12 m3 l3">
+            <h5>Select Graph Type</h5>
+            <div>
+            <p class="waves-effect btn-small waves-light btn orange" v-on:click="graphType = 'lines'">Line Graph</p>
+
+            <p class="waves-effect btn-small waves-light btn orange" v-on:click="graphType = 'scatter'">Scatter Graph</p>
+    
+            <p class="waves-effect btn-small waves-light btn orange" v-on:click="graphType = 'bar'">Bar Graph</p>
+
+            <p class="waves-effect btn-small waves-light btn orange" v-on:click="graphType = 'scatter3d'">3D Scatter</p>
+
+            <p class="waves-effect btn-small waves-light btn orange" v-on:click="graphType = 'coordinate_parallel'">Coordinate Parallel</p>
+
+        </div>
+    </div>
+    <div class = "col s12 m3 l3">
+            <h5>Select X Axis Data</h5>
+            <div v-for="column in selected_data.columns">
+                    <p class="waves-effect btn-small waves-light btn teal" v-on:click="xData = columnData(column); xCol = column">[[column]]</p>
+
+            </div>
+    </div>
+    <div class = "col s12 m3 l3">
+            <h5>Select Y Axis Data</h5>
+            <div v-for="column in selected_data.columns">
+                    <p class="waves-effect btn-small waves-light btn blue" v-on:click="yData = columnData(column); yCol = column">[[column]]</p>
+            </div>
+    </div>
+    <div class = "col s12 m3 l3">
+            <h5>Select Z Axis Data</h5>
+            <div v-for="column in selected_data.columns">
+                    <p class="waves-effect btn-small waves-light btn red" v-on:click="zData = columnData(column); zCol = column">[[column]]</p>
+            </div>
+    </div>
+    
+
+
+</div>
+
+</div>
+
+<div class="container">
+        <button class="waves-effect waves-light btn-large orange" v-on:click = "createGraph(); graphCreated++"> CREATE GRAPH </button>
+        <button class="waves-effect waves-light btn-large orange" v-on:click = "clearGraph()"> CLEAR GRAPH </button>
+</div>
+
+            
+</div>
+
+<br>
+<br>
+<br>
+</div>
+</body>
+<script src="{{ url_for('static', filename='customGraph.js')}}"></script>
+
+</html>
