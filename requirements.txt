@@ -143,7 +143,7 @@ virtualenv==16.6.2
 virtualenv-clone==0.5.3
 wcwidth==0.1.7
 webencodings==0.5.1
-websockets==7.0
+websockets==9.1
 Werkzeug==0.15.5
 widgetsnbextension==3.5.1
 wikipedia==1.4.0
